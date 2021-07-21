@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather</title>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="container" style="background-color: aqua;width: 100%;height: 800px;">
+        <div class="row">
+            <div class="col-4"
+                style="background-color: blue;width: 100%;height: 100px; color: coral; font-size: 50px; text-align: center;">
+                Weather Info
+
+            </div>
+            <div class="col-4" style="align-content:center;">
+                <input type="text" placeholder="Enter City" id="city">
+                <button class="btn btn-success" onclick="fetchWeather()">Submit</button>
+            </div>
+        </div>
+        <div class="col-12" id="result">
+
+        </div>
+        <div class="row">Created By Akhil Bhasy</div>
+
+
+    </div>
+</body>
+<script>
+
+    function populate(weather) {
+        //console.log(weather);
+        let city = weather.name
+        let temp = weather.main.temp
+        let pre = weather.main.pressure
+        let humi = weather.main.humidity
+        let weath = weather.weather[0].main
+        let wind = weather.wind.speed
+        let symbol=weather.weather[0].icon
+
+        let html_data = `
+<div class="card bg-dark text-white">
+            <img src="weather1.jpg" class="card-img" alt="..." height="500px" width="500px">
+            <div class="card-img-overlay">
+                <h1 class="card-title" style="color: blue; text-align=center">${city}</h1>
+                <p class="card-text" style="color: red;">Temperature:   ${temp}</p>
+                <p class="card-text" style="color: red;">Pressure:   ${pre}</p>
+                <p class="card-text" style="color: red;">Humidity:   ${humi}</p>
+                <p class="card-text" style="color: red;">Weather:   ${weath}</p>
+                <p class="card-text" style="color: red;">Wind Speed:   ${wind}</p>
+                <p class="card-text" style="color: red;"> ${symbol}</p>
+            </div>
+        </div>
+
+`
+        result.innerHTML = html_data
+    }
+
+
+    function fetchWeather() {
+        let city_name = city.value;
+        let url = `https://api.openweathermap.org/data/2.5/weather?q=${city_name}&appid=19372fc2599166457b3b4b4352c37cd5&units=metric`
+        fetch(url).then(res => res.json().then(data => populate(data)))
+    }
+</script>
+
+</html>
